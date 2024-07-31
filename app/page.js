@@ -6,18 +6,25 @@ import BroadCastForm from "./components/form";
 import IconDownload from "./icons/download";
 import Navbar from "./components/nav";
 import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 import MyDocument from "./components/pdf";
+import { useEffect, useState } from "react";
 
 export default function Home() {
 
-  const PDFDownloadLink = dynamic(
-    () => import("@react-pdf/renderer").then((mod) => mod. PDFDownloadLink),
-    {
-      ssr: false,
-      loading: () => <p>Loading...</p>,
-    },
-  );
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // const PDFDownloadLink = dynamic(
+  //   () => import("@react-pdf/renderer").then((mod) => mod. PDFDownloadLink),
+  //   {
+  //     ssr: false,
+  //     loading: () => <p>Loading...</p>,
+  //   },
+  // );
 
   const readGoogleSheet = () => {
     // Sort results by id in descending order, take two
@@ -264,16 +271,19 @@ export default function Home() {
             </div>
 
             <div className="grid w-full p-5">
-              <PDFDownloadLink document={<MyDocument />} fileName="document.pdf">
+              {
+                isClient ? 
+                <PDFDownloadLink document={<MyDocument />} fileName="document.pdf">
                  {({ loading }) => (
                    <button
-                     className="flex items-center justify-center gap-2 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                   className="flex items-center justify-center gap-2 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                    >
                      <IconDownload />
                      {loading ? 'Loading document...' : 'Unduh'}
                    </button>
                  )}
                </PDFDownloadLink>
+                : null } 
              </div>
 
             {/* <div className="grid w-full p-5">
