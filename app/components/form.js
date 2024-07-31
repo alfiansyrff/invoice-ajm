@@ -6,6 +6,64 @@ function BroadCastForm() {
   const [loading, setLoading] = useState(false);
   const [documentType, setDocumentType] = useState('');
 
+  const insertGoogleSheet = async (data) => {
+    fetch('https://sheetdb.io/api/v1/neqtiw44tjli8', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          data: [
+            
+              {
+                'hari': data.hari,
+                'tanggal': data.tanggal,
+                'jam': data.jam,
+                'vol': data.vol,
+                'mutu': data.mutu,
+                'harga': data.harga,
+              }
+             
+
+          ]
+      })
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data));
+  
+  }
+  // const insertGoogleSheet = async (data) => {
+  //   try {
+  //     const response = await fetch('https://sheetdb.io/api/v1/neqtiw44tjli8', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         data: [
+  //           {
+  //             'productCode': data.productCode,
+  //             'hari': data.hari,
+  //             'tanggal': data.tanggal,
+  //             'jam': data.jam,
+  //             'vol': data.vol,
+  //             'mutu': data.mutu,
+  //             'harga': data.harga,
+  //             'ajm': data.ajm,
+  //             'deal': data.deal
+  //           }
+  //         ]
+  //       })
+  //     });
+  //     const result = await response.json();
+  //     console.log(result);
+  //   } catch (error) {
+  //     console.error('Error inserting data into Google Sheet:', error);
+  //   }
+  // };
+
   const extract = () => {
     setLoading(true);
     const textarea = document.getElementById('message').value;
@@ -33,7 +91,9 @@ function BroadCastForm() {
       teknisi: textarea.match(/Teknisi\s*:\s*(.*)/)?.[1].trim()
     };
     setLoading(false);
-    console.log(data);
+    insertGoogleSheet(data);
+    // console.log(data);
+    // call the insert to sheet funcgtion
   };
 
   const handleDocumentTypeChange = (e) => {
