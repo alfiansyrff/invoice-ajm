@@ -6,7 +6,7 @@ import BroadCastForm from "./components/form";
 import IconDownload from "./icons/download";
 import Navbar from "./components/nav";
 import ReactDOM from 'react-dom';
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+// import { PDFViewer } from '@react-pdf/renderer';
 import MyDocument from "./components/pdf";
 import { useEffect, useState } from "react";
 
@@ -18,13 +18,22 @@ export default function Home() {
     setIsClient(true)
   }, [])
 
-  // const PDFDownloadLink = dynamic(
-  //   () => import("@react-pdf/renderer").then((mod) => mod. PDFDownloadLink),
-  //   {
-  //     ssr: false,
-  //     loading: () => <p>Loading...</p>,
-  //   },
-  // );
+  const PDFDownloadLink = dynamic(
+    () => import("@react-pdf/renderer").then((mod) => mod. PDFDownloadLink),
+    {
+      ssr: false,
+      loading: () => <p>Loading...</p>,
+    },
+  );
+
+  
+  const PDFViewer = dynamic(
+    () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
+    {
+      ssr: false,
+      loading: () => <p>Loading...</p>,
+    },
+  );
 
   const readGoogleSheet = () => {
     // Sort results by id in descending order, take two
